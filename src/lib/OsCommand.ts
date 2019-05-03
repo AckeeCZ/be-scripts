@@ -55,8 +55,8 @@ export default class OsCommand<Flags extends { [key: string]: any }> {
             p.on('error', reject);
             p.on('close', resolve);
             p.on('exit', resolve);
-            p.stdout.pipe(process.stdout).on('error', reject);
-            p.stderr.pipe(process.stderr).on('error', reject);
+            p.stdout!.pipe(process.stdout).on('error', reject);
+            p.stderr!.pipe(process.stderr).on('error', reject);
         });
     }
     protected serializeFlags(flags: Record<string, string | undefined | boolean> = {}) {
