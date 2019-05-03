@@ -19,7 +19,7 @@ const cloudSqlProxy = new CloudSqlProxyCli(globalOptions);
 
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'));
 
-const initializationCheck = async() => {
+const initializationCheck = async () => {
     const load = loading('Inspecting environment').start();
     const results = await Promise.all([
         {
@@ -36,7 +36,7 @@ const initializationCheck = async() => {
         },
         {
             name: 'gcloud account',
-            check: async() => {
+            check: async () => {
                 const auth = await gcloud.configListAccount();
                 return auth && auth.core && auth.core.account;
             },
@@ -69,7 +69,7 @@ const searchable = <T>({ extract, getItems, display }: {
     getItems: (answers: Answers) => Promise<T[]>;
     display: (item: T) => { name: string, value: any, short: string};
 }) => {
-    return async(answers: Answers, input: string = '') => {
+    return async (answers: Answers, input: string = '') => {
         const fuzzyResult = fuzzy.filter(
             input,
             await getItems(answers),
@@ -85,7 +85,7 @@ const searchable = <T>({ extract, getItems, display }: {
 
 const vmPicker = () => {
     let list = Promise.resolve([]) as Promise<Array<VMInstance>>;
-    const getList = async(answers: any) => {
+    const getList = async (answers: any) => {
         const data = await list;
         if (data.length) {
             return data;
@@ -146,7 +146,7 @@ const typePicker = () => {
         message: 'Pick forward type',
         type: 'autocomplete',
         source: searchable({
-            getItems: async() => list,
+            getItems: async () => list,
             extract: item => item.name,
             display: item => ({
                 name: item.name,
@@ -162,6 +162,7 @@ const remotePortPicker = () => {
         name: 'remotePort',
         type: 'input',
         message: 'Remote port',
+        // tslint:disable-next-line cyclomatic-complexity
         default: (answers: Answers & { pod?: Pod, vminstance?: VMInstance }) => {
             if (answers.vminstance) {
                 const name = answers.vminstance.name;
@@ -197,7 +198,7 @@ const localPortPicker = () => {
         name: 'localPort',
         type: 'input',
         message: 'Local port',
-        default: async(answers: Answers) => {
+        default: async (answers: Answers) => {
             // Prefer range remotePort..(remotePort + 5)
             // If none is found, pick any available port
             const preferredPorts = new Array(5)
@@ -210,7 +211,7 @@ const localPortPicker = () => {
 
 const clusterPicker = () => {
     let list = Promise.resolve([]) as Promise<Array<Cluster>>;
-    const getList = async(answers: any) => {
+    const getList = async (answers: any) => {
         const data = await list;
         if (data.length) {
             return data;
@@ -239,7 +240,7 @@ const clusterPicker = () => {
 
 const cloudSqlPicker = () => {
     let list = Promise.resolve([]) as Promise<Array<SqlInstance>>;
-    const getList = async(answers: any & { project: Project }) => {
+    const getList = async (answers: any & { project: Project }) => {
         const data = await list;
         if (data.length) {
             return data;
@@ -265,7 +266,7 @@ const cloudSqlPicker = () => {
 
 const podPicker = () => {
     let list = Promise.resolve([]) as Promise<Array<Pod>>;
-    const getList = async(answers: any) => {
+    const getList = async (answers: any) => {
         const data = await list;
         if (data.length) {
             return data;
@@ -313,7 +314,7 @@ const onlyTypes = (types: string[], ...pickers: any[]) => {
         }));
 };
 
-const main = async() => {
+const main = async () => {
     await initializationCheck();
     const answers = await inquirer
         .prompt([

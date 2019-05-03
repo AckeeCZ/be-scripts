@@ -22,7 +22,7 @@ export interface Options {
     tempDir: string;
 }
 
-export const aglioCompilation = async(options: Options) => {
+export const aglioCompilation = async (options: Options) => {
     const mergeFile = path.join(options.tempDir, `${path.basename(options.input[0])}-all.apib`);
     console.log(`Compiling with Algio. Out: ${mergeFile}`);
     await promisify(aglio.compileFile)(
@@ -35,7 +35,7 @@ export const aglioCompilation = async(options: Options) => {
     return { mergeFile };
 };
 
-export const swaggerize = async(options: Options & { mergeFile: string }) => {
+export const swaggerize = async (options: Options & { mergeFile: string }) => {
     const swaggerFile = path.join(options.tempDir, `${path.basename(options.input[0])}-swagger.json`);
     console.log(`Converting apib to Swagger. Out: ${swaggerFile}`);
     const result = await promisify(apib2swagger.convert)(
@@ -50,7 +50,7 @@ export const swaggerize = async(options: Options & { mergeFile: string }) => {
     return { swaggerFile };
 };
 
-export const generateSwaggerUi = async(options: Options & { swaggerFile: string }) => {
+export const generateSwaggerUi = async (options: Options & { swaggerFile: string }) => {
     const swaggerGenPath = require.resolve('swagger-gen');
     const webFolder = path.join(options.tempDir, `${path.basename(options.input[0]).replace(/\./gi, '')}`);
     console.log(`Generating Swagger web. Out: ${webFolder}`);
@@ -67,7 +67,7 @@ export const generateSwaggerUi = async(options: Options & { swaggerFile: string 
     return { webFolder };
 };
 
-export const mergeHtml = async(options: Options & { webFolder: string }) => {
+export const mergeHtml = async (options: Options & { webFolder: string }) => {
     console.log(`Merging html: Out: ${options.output}`);
     const webFolderIndex = path.join(options.webFolder, 'index.html');
     const inStream = fs.createReadStream(webFolderIndex);

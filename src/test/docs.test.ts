@@ -5,7 +5,7 @@ import { promisify } from 'util';
 import docs from '../lib/docs';
 
 describe('Docs', () => {
-    it('Simple .apib conversion', async() => {
+    it('Simple .apib conversion', async () => {
         await docs(
             [],
             {
