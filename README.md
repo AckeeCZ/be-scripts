@@ -2,6 +2,11 @@
 
 Ackee scripts for backend development.
 
+[![Build Status](https://img.shields.io/travis/com/AckeeCZ/be-scripts/master.svg?style=flat-square)](https://travis-ci.com/AckeeCZ/be-scripts)
+[![Known Vulnerabilities](https://snyk.io/test/github/AckeeCZ/be-scripts/badge.svg)](https://snyk.io/test/github/AckeeCZ/be-scripts)
+
+
+
 ## Usage
 
 1. Installation `npm install -g @ackee/be-cli`
